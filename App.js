@@ -1,112 +1,71 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+import React, { Component } from 'react';
+import {View, Text, StyleSheet, FlatList, Dimensions} from 'react-native';
 
-import React from 'react';
-import type {Node} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import {ModelX, Model3, ModelS, ModelY} from './assets';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import Car from './src/components/Car'
+import Header from './src/components/Header'
 
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
+function App(){
+
+  const cars = [
+    {
+      key:'1',
+      image: ModelX,
+      name : 'Model X',
+      price : '69,420'
+    },
+    {
+      key:'2',
+      image: ModelS,
+      name : 'Model S',
+      price : '89,420'
+    },
+    {
+      key:'3',
+      image: ModelY,
+      name : 'Model Y',
+      price : '46,499'
+    },
+    {
+      key:'4',
+      image: Model3,
+      name : 'Model 3',
+      price : '39,499'
+    },
+  ]
+
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+    <View style={styles.container}>
+      <Header />
+      <FlatList 
+        style={styles.list}
+        data={cars}
+        // keyExtractor={({item, index})=> item.key}
+        renderItem= {({item, index})=>(<Car imgSource={item.image} name={item.name} price={item.price} />)}
+        snapToAlignment={'start'}
+        decelerationRate={5}
+        snapToInterval={Dimensions.get('window').height}
+      />
+      {/* <Car imgSource={ModelX} name='Model S' price='69,420' />
+      <Car imgSource={ModelY} name='Model Y' price='69,420' />
+      <Car imgSource={ModelS} name='Model S' price='69,420' />
+      <Car imgSource={Model3} name='Model 3' price='69,420' /> */}
     </View>
   );
-};
+}
 
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-};
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+const styles=StyleSheet.create({
+  container:{
+    // flex:1,
+    backgroundColor:'#fff',
+    justifyContent:'center',
+    alignItems:'center'
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+  list: {
+    // flex:1,
+    width:'100%'
+  }
+})
 
 export default App;
